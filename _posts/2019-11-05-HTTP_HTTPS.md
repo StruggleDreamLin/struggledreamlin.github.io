@@ -203,6 +203,7 @@ TCP、IP协议族是由一系列网络协议所组成的网络分层模型。
 可参考：[TLS/SSL握手过程](https://blog.csdn.net/hherima/article/details/52469674)
 双向验证服务器也需要验证客户端证书
 ![image.png](../images/posts/tls.png)
+<img src="/images/posts/tls.png" height="1000" width="500"> 
 
 ### 在Android中使用HTTPS
 -  正常情况：直接使用
