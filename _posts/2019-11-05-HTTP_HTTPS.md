@@ -83,7 +83,7 @@ tag: 安全
   - 经典算法：RSA、RSA2、DSA(DSA专门用作签名，速度很快)
   - 延伸用途：数字签名，使用私钥进行签名，保证数据的唯一性，公钥进行验证。
   - 如何保证安全性：非对称加密保证数据安全，签名防止篡改、伪造。
-![image.png](https://upload-images.jianshu.io/upload_images/6850504-747ea6ad7cec3787.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](../images/posts/非对称加密阿里.png)
 **支付宝**使用的就是这种流程。
 如上图所示，通过非对称加密算法进行签名实现了数据的安全性，但是同时有一个问题是，**数据增大了一倍**。
 - #### [Base64](https://zh.wikipedia.org/wiki/Base64)
@@ -94,7 +94,7 @@ tag: 安全
 
 - ####[Url Encoding](https://zh.wikipedia.org/wiki/%E7%99%BE%E5%88%86%E5%8F%B7%E7%BC%96%E7%A0%81)
   - 将URL中的保留字符都使用%进行编码。
-![image.png](https://upload-images.jianshu.io/upload_images/6850504-2916a3ed8d60a98c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](../images/posts/百分号编码.png)
 
 ## 压缩与解压缩
 - ####压缩：将数据转换一种方式来存储，减小占用空间。
@@ -126,7 +126,7 @@ tag: 安全
     - 彩虹表：存储了常用密码哈希值，用来尝试破解用户密码。
       - 如何防止：可以使用加盐哈希来防止，**加盐**指随机一个固定的前缀或者后缀（盐的长度越长越安全），在做哈希校验时，将盐附加一起进行哈希算法，这样在不知道你的**盐值**的情况下，彩虹表就无效了。
 #### 使用Hash签名的非对称加密
-![image.png](https://upload-images.jianshu.io/upload_images/6850504-de2c4b591ad03453.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](../images/posts/非对称加密微信.png)
 上图所示，**微信**使用该方式。
 
 ## 字符集
@@ -142,7 +142,7 @@ tag: 安全
 ## 登录和授权
 - #### Cookie：客户端存储机制。
   - 工作机制
-客户端存储服务器要求存储的数据，该数据服务器端并不进行存储，而是在放在Response Header里（Set-Cookie:xxxxx）要求客户端存储，客户端再次请求改服务器时，将存储的Cookie添加到Request Header中（Cookie:xxxxx），提交给服务器。![image.png](https://upload-images.jianshu.io/upload_images/6850504-1553f14d82a4560e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+客户端存储服务器要求存储的数据，该数据服务器端并不进行存储，而是在放在Response Header里（Set-Cookie:xxxxx）要求客户端存储，客户端再次请求改服务器时，将存储的Cookie添加到Request Header中（Cookie:xxxxx），提交给服务器。![cookie.png](../images/posts/cookie.png)
   - 作用
     - 会话管理
       - 登录状态管理
@@ -159,12 +159,12 @@ tag: 安全
   
   - Basic：Authorization:Basic <Base64(username:password)>
     示例：api.github.com/notifications 
-![image.png](https://upload-images.jianshu.io/upload_images/6850504-da995a4b93ab5fa6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](../images/posts/authorization.png)
     安全风险
     - 数据被截获，用户名和密码直接Base64解码就全泄漏了，当然如果是HTTPS，数据是不容易被截获的。
   -Bearer（持票人）：Authorization:Bearer <bearer token>
     - OAuth2流程：（如微信登录）
-![image.png](https://upload-images.jianshu.io/upload_images/6850504-b3cb0b3f6769f215.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](../images/posts/oauth2.png)
     - 自家登录使用bearer token
     登录后服务器直接返回access_token，再次请求直接添加即可。
     - refresh token：refresh token 可以刷新access token，获取新的access token，并使旧的access token。假如当前使用的access_token失窃，可以使用refresh_token进行更换access_token；refresh_token
@@ -181,7 +181,7 @@ TCP、IP协议族是由一系列网络协议所组成的网络分层模型。
 ## TCP连接
   - TCP 连接的建立与关闭
 由于TCP连接是全双工通道（可在两个方向同时传递消息），所以两个方向都需要单独关闭连接。
-    ![2751468781-5a07e9cb3a21b_articlex.png](https://upload-images.jianshu.io/upload_images/6850504-545c16a5907069c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+    ![2751468781-5a07e9cb3a21b_articlex.png](../images/posts/tcp.png)
 
   - 长连接
     - 不主动关闭连接
@@ -190,7 +190,7 @@ TCP、IP协议族是由一系列网络协议所组成的网络分层模型。
 ## HTTPS（HyperText Transfer Protocol Secure）
 常称为HTTP over TLS、HTTP over SSL或HTTP Secure
 - 定义：HTTPS经由[HTTP](https://zh.wikipedia.org/wiki/HTTP "HTTP")进行通信，但利用[SSL/TLS](https://zh.wikipedia.org/wiki/%E4%BC%A0%E8%BE%93%E5%B1%82%E5%AE%89%E5%85%A8 "传输层安全")来加密数据包，实际是在HTTP（应用层）与TCP（传输层）之间加了一个安全层，用于实现加密传输
-![image.png](https://upload-images.jianshu.io/upload_images/6850504-b500e525bb73b23f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](../images/posts/http_tls.png)
 
 - 本质：首先，客户端和服务器通过**非对称加密**通信，协商出一个**对称加密**的**密钥Key**，然后在之后的每次通信都使用**对称加密**(密钥当就是协商出来的密钥)来进行。
 - 连接大概过程
@@ -202,7 +202,7 @@ TCP、IP协议族是由一系列网络协议所组成的网络分层模型。
 ####**实际流程如下图所示为单向验证流程**
 可参考：[TLS/SSL握手过程](https://blog.csdn.net/hherima/article/details/52469674)
 双向验证服务器也需要验证客户端证书
-![image.png](https://upload-images.jianshu.io/upload_images/6850504-6c19b084f2bf6554.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](../images/posts/tls.png)
 
 ### 在Android中使用HTTPS
 -  正常情况：直接使用
