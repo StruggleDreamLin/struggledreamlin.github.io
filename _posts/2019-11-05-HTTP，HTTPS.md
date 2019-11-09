@@ -1,13 +1,12 @@
 ---
-​---
 layout:post
 title:HTTP，HTTPS
 descriptions:HTTP、HTTPS相关原理
 tag:安全
-​---
 ---
 
 
+# HTTP，HTTPS
 
 ### 幂等性
 - 指对于同一个接口的调用，一次或多次得到的结果是完全一样的。
