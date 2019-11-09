@@ -39,7 +39,7 @@ tag: 安全
 - #### Header
 - #### Body
 
-###Headers：Http消息的元数据{meta data}
+### Headers：Http消息的元数据{meta data}
   - Host:用于定位主机具体的服务器，如(gank.io)
   - Content-Type:Body内容类型
 
@@ -71,7 +71,7 @@ tag: 安全
  - Buffer:缓冲，备用（）
 ### Body：具体的数据内容
 
-###:讲义
+### :讲义
 
 ## 现代密码学
 可用于文字或二进制内容的加密传输。
@@ -92,18 +92,18 @@ tag: 安全
   - 用途：纯文本（或字符串）的传输场景，比如只支持字符串传输的场景下实现图片的传输，可以先将图片Base64编码变成字符串之后再进行传输。
   - 特点：由于Base64由6个bit组成一个打印字符，所以对于二进制数据来说，3个字节:3 X 8 = 24bit = 4* 6bit = 4个打印字符。二进制数据经过Base64编码后，长度会增加1/3。
 
-- ####[Url Encoding](https://zh.wikipedia.org/wiki/%E7%99%BE%E5%88%86%E5%8F%B7%E7%BC%96%E7%A0%81)
+- #### [Url Encoding](https://zh.wikipedia.org/wiki/%E7%99%BE%E5%88%86%E5%8F%B7%E7%BC%96%E7%A0%81)
   - 将URL中的保留字符都使用%进行编码。
 ![image.png](https://struggledreamlin.github.io/images/posts/百分号编码.png)
 
 ## 压缩与解压缩
-- ####压缩：将数据转换一种方式来存储，减小占用空间。
-- ####解压缩：将数据转换为可用格式。
+- #### 压缩：将数据转换一种方式来存储，减小占用空间。
+- #### 解压缩：将数据转换为可用格式。
 - #### 常见压缩算法
   - DEFLATE(zip)
   - JPEG
   - MP3
-- ####媒体数据的编解码
+- #### 媒体数据的编解码
   - 图片的编码：将图片写成jpg，png等文件编码格式。
   - 图片的解码：将jpg、png等格式的图片解析成标准的图像数据格式。
   - 音频、视频的编解码
@@ -125,7 +125,7 @@ tag: 安全
     如Web数据库不直接存储用户密码，只存储用户密码的**hashCode**。用户登录的时候再使用用户密码进行哈希和存储的hashCode进行校验。
     - 彩虹表：存储了常用密码哈希值，用来尝试破解用户密码。
       - 如何防止：可以使用加盐哈希来防止，**加盐**指随机一个固定的前缀或者后缀（盐的长度越长越安全），在做哈希校验时，将盐附加一起进行哈希算法，这样在不知道你的**盐值**的情况下，彩虹表就无效了。
-#### 使用Hash签名的非对称加密
+####  使用Hash签名的非对称加密
 ![image.png](https://struggledreamlin.github.io/images/posts/非对称加密微信.png)
 上图所示，**微信**使用该方式。
 
@@ -155,7 +155,7 @@ tag: 安全
 （Cross Site Scripting）：跨站脚本攻击，攻击者可以通过JS(或其他语言)获取到用户的Cookie、session等信息。可以通过将Cookie标记为HttpOnly（该属性可以防止Js读取用户Cookie）防止XSS攻击。
   - [XSRF](https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0)
 （Cross-site request forgery）跨站请求攻击，简单地说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并运行一些操作。HTTP头中有一个Referer字段，这个字段用以标明请求来源于哪个地址。可以通过Referer字段去验证实际的请求发起方。
-- ####Authorization
+- #### Authorization
   
   - Basic：Authorization:Basic <Base64(username:password)>
     示例：api.github.com/notifications 
@@ -199,7 +199,7 @@ TCP、IP协议族是由一系列网络协议所组成的网络分层模型。
   - 客户端验证证书，验证若通过则信任服务器
   - 客户端信任服务器后开始和服务器协商对称加密密钥
   - 使用对称密钥开始通信
-####**实际流程如下图所示为单向验证流程**
+#### **实际流程如下图所示为单向验证流程**
 可参考：[TLS/SSL握手过程](https://blog.csdn.net/hherima/article/details/52469674)
 双向验证服务器也需要验证客户端证书
 ![image.png](https://struggledreamlin.github.io/images/posts/tls.png)
