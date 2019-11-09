@@ -161,7 +161,6 @@ tag: 安全
   - [XSRF](https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0)
 （Cross-site request forgery）跨站请求攻击，简单地说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并运行一些操作。HTTP头中有一个Referer字段，这个字段用以标明请求来源于哪个地址。可以通过Referer字段去验证实际的请求发起方。
 -  #### Authorization
-  
   - Basic：Authorization:Basic <Base64(username:password)>
     示例：api.github.com/notifications 
 ![image.png](https://struggledreamlin.github.io/images/posts/authorization.png)
