@@ -145,7 +145,7 @@ tag: 安全
     - GBK/GB2312/GB18030：中国自研标准，多字节，字符集+编码
 
 ## 登录和授权
--  #### Cookie：客户端存储机制。
+- #### Cookie：客户端存储机制。
   - 工作机制
 客户端存储服务器要求存储的数据，该数据服务器端并不进行存储，而是在放在Response Header里（Set-Cookie:xxxxx）要求客户端存储，客户端再次请求改服务器时，将存储的Cookie添加到Request Header中（Cookie:xxxxx），提交给服务器。![cookie.png](https://struggledreamlin.github.io/images/posts/cookie.png)
   - 作用
