@@ -9,7 +9,8 @@ avatarDesc: Android
 url: "https://struggledreamlin.github.io/"
 baseurl: "/struggledreamlin.github.io" # the subpath of your site, e.g. /blog
 include: [_layouts]
-
+include: [includes]
+include: [_post]
 
 # Comment
 comment:
