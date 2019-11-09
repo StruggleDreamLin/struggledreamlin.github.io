@@ -7,6 +7,9 @@ avatarTitle: dreamlin
 # 头像里面的描述
 avatarDesc: Android
 url: "https://struggledreamlin.github.io/"
+baseurl: "/struggledreamlin.github.io" # the subpath of your site, e.g. /blog
+include: [_layouts]
+
 
 # Comment
 comment:
