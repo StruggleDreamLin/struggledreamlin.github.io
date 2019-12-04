@@ -234,7 +234,7 @@ objectAnimator.setInterpolator(new XXXInterpolator)
   //动画完成时回弹到80%
   Keyframe keyframe3 = Keyframe.ofFloat(1, 80);
   PropertyValuesHolder holder = PropertyValuesHolder.ofKeyframe("progress", keyframe1,        keyframe2, keyframe3);
-  ValueAnimator valueAnimator = ObjectAnimator.ofPropertyValuesHolder(holder);
+  ValueAnimator valueAnimator = ObjectAnimator.ofPropertyValuesHolder(view, holder);
   valueAnimator.setDuration(2000);valueAnimator.start();
   ```
 
