@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "自定义View之布局"
-description: "Android自定义绘制的布局部分"
+title: "自定义View之触摸反馈"
+description: "Android自定义绘制的触摸反馈部分"
 tag: 自定义View
 ---
-## 布局
+## 触摸反馈
 
 ### 写在前面：
 
