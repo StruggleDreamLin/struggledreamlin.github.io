@@ -6,90 +6,30 @@ tag: 自定义View
 ---
 ## 触摸反馈
 
-### 写在前面：
 
-​	本文只为方便自己复习记录，内容摘录于[Hencoder](https://hencoder.com/ui-2-1/)
 
-![](https://struggledreamlin.github.io/images/posts/ui-2-1-cover.png)
+### 事件分发机制
 
-### 布局过程的含义
+​	事件是成组存在的，如：
 
-布局过程，就是程序在运行时利用布局文件的代码来计算出实际尺寸的过程。
+`ACTION_DOWN -> ACTION_MOVE -> ACTION_MOVE -> ACTION_MOVE -> ACTION_UP`
 
-### 布局过程的工作内容
+`ACTION_DOWN -> ACTION_UP`
 
-两个阶段：测量阶段和布局阶段。
+`ACTION_DOWN -> ACTION_MOVE -> ACTION_MOVE -> ACTION_MOVE -> ACTION_CANCEL`
 
-**测量阶段**：从上到下递归地调用每个 View 或者 ViewGroup 的 measure() 方法，测量他们的尺寸并计算它们的位置；
-**布局阶段**：从上到下递归地调用每个 View 或者 ViewGroup 的 layout() 方法，把测得的它们的尺寸和位置赋值给它们。
+- onTouchEvent: 触摸事件会从最顶层的View开始询问View是否需要消费该事件，如果View消费该事件，事件流在这里就结束了，反之如果View不消费该事件，则事件将继续向下传递，直到最底层的RootView。需要注意的一点是，**是否消费该组事件需要在ACTION_DOWN 事件中决定**，如果在 **ACTION_DOWN**事件中return了false，那么后续的事件都无法进行处理了。
+- onInterceptTouchEvent: 其实该方法会在onTouchEvent之前执行，不同的是onInterceptTouchEvent是从最底层的RootViewGroup开始向上进行询问ViewGroup，是否要拦截该事件流，如果拦截，则ViewGroup对于该事件流自己进行处理，不会交给子View去处理。和onTouchEvent不同的是onInterceptTouchEvent不需要在 **ACTION_DOWN** 事件中就决定是否消费一组事件，onInterceptTouchEvent可以针对每个事件进行拦截处理，并且在拦截时会向子View发送一个 **ACTION_CANCEL** 事件，比如子View在onTouchEvent 中的**ACTION_DOWN** 事件return 了ture，但在随后的 **ACTION_MOVE** 事件却被ViewGroup拦截了，所以此时需要ViewGroup给子View发送一个**ACTION_CANCEL**事件。
+- requestDisallowInterceptTouchEvent：还存在的一种情况是子View不希望ViewGroup拦截自己的事件，那么只需要调用requestDisallowInterceptTouchEvent方法，传入true即可。
+- dispatchTouchEvent: 事件分发总调度方法，一个事件分发的过程就是从RootView开始递归调用了dispatchTouchEvent的过程。
 
-### View 或 ViewGroup 的布局过程
+### 自定义触摸反馈
 
-1. 测量阶段，`measure()` 方法被父 View 调用，在 `measure()` 中做一些准备和优化工作后，调用 `onMeasure()` 来进行实际的自我测量。 `onMeasure()` 做的事，`View` 和 `ViewGroup` 不一样：
-   1. **View**：`View` 在 `onMeasure()` 中会计算出自己的尺寸然后保存；
-   2. **ViewGroup**：`ViewGroup` 在 `onMeasure()` 中会调用所有子 View 的 `measure()` 让它们进行自我测量，并根据子 View 计算出的期望尺寸来计算出它们的实际尺寸和位置（实际上 99.99% 的父 View 都会使用子 View 给出的期望尺寸来作为实际尺寸，原因在下期或下下期会讲到）然后保存。同时，它也会根据子 View 的尺寸和位置来计算出自己的尺寸然后保存；
-2. 布局阶段，`layout()` 方法被父 View 调用，在 `layout()` 中它会保存父 View 传进来的自己的位置和尺寸，并且调用 `onLayout()` 来进行实际的内部布局。`onLayout()` 做的事， `View` 和 `ViewGroup` 也不一样：
-   1. **View**：由于没有子 View，所以 `View` 的 `onLayout()` 什么也不做。
-   2. **ViewGroup**：`ViewGroup` 在 `onLayout()` 中会调用自己的所有子 View 的 `layout()` 方法，把它们的尺寸和位置传给它们，让它们完成自我的内部布局。
+- 重写onTouchEvent，在**ACTION_DOWN事件中返回true**，在对应的事件中写自己的触摸反馈算法。
+- ViewGroup需要拦截事件的，**重写onInterceptTouchEvent，在合适的事件中返回true**，拦截事件，实现自己的处理。
+- 存在ViewGroup的事件拦截时，此时子View并不希望被拦截事件，可以调用**requestDisallowInterceptTouchEvent** 阻止ViewGroup拦截自己的事件。
 
-### 布局过程自定义的方式
+### 练习项目
 
-三类：
-
-1. 重写 `onMeasure()` 来修改已有的 `View` 的尺寸；
-2. 重写 `onMeasure()` 来全新定制自定义 `View` 的尺寸；
-3. 重写 `onMeasure()` 和 `onLayout()` 来全新定制自定义 `ViewGroup` 的内部布局。
-
-#### 第一类：修改已有View的尺寸
-
-1. 重写 `onMeasure()` 方法，并在里面调用 `super.onMeasure()`，触发原有的自我测量；
-2. 在 `super.onMeasure()` 的下面用 `getMeasuredWidth()` 和 `getMeasuredHeight()` 来获取到之前的测量结果，并使用自己的算法，根据测量结果计算出新的结果；
-3. 调用 `setMeasuredDimension()` 来保存新的结果。
-
-#### 第二类：全新定制自定义 `View` 的尺寸
-
-##### 全新定制尺寸和修改尺寸的最重要区别
-
-需要在计算的同时，保证计算结果满足父 View 给出的的尺寸限制
-
-##### 父 View 的尺寸限制
-
-1. 由来：开发者的要求（布局文件中 `layout_` 打头的属性）经过父 View 处理计算后的更精确的要求；
-2. 限制的分类：
-   1. `UNSPECIFIED`：不限制
-   2. `AT_MOST`：限制上限
-   3. `EXACTLY`：限制固定值
-
-##### 全新定义自定义 View 尺寸的方式
-
-1. 重新 `onMeasure()`，并计算出 View 的尺寸；
-2. 使用 `resolveSize()` 来让子 View 的计算结果符合父 View 的限制（当然，如果你想用自己的方式来满足父 View 的限制也行）。
-
-#### 第三类：全新定制自定义 `ViewGroup` 的内部布局
-
-##### 定制 Layout 内部布局的方式
-
-1. 重写 `onMeasure()` 来计算内部布局
-2. 重写 `onLayout()` 来摆放子 View
-
-##### 重写 onMeasure() 的三个步骤：
-
-1. 调用每个子 View 的 `measure()` 来计算子 View 的尺寸
-2. 计算子 View 的位置并保存子 View 的位置和尺寸
-3. 计算自己的尺寸并用 `setMeasuredDimension()` 保存
-
-##### 计算子 View 尺寸的关键
-
-计算子 View 的尺寸，关键在于 `measure()` 方法的两个参数——也就是子 View 的两个 `MeasureSpec` 的计算。
-
-##### 子 View 的 MeasureSpec 的计算方式：
-
-- 结合开发者的要求（xml 中 `layout_` 打头的属性）和自己的可用空间（自己的尺寸上限 - 已用尺寸）
-- 尺寸上限根据自己的`MeasureSpec`中的mode 而定
-  - EXACTLY / AT_MOST：尺寸上限为 `MeasureSpec` 中的 `size`
-  - UNSPECIFIED：尺寸无上限
-
-##### 重写 onLayout() 的方式
-
-在 `onLayout()` 里调用每个子 View 的 `layout()` ，让它们保存自己的位置和尺寸。
+- [薄荷健康 卷尺效果](https://gitee.com/struggledreamlin/ruler.git)
 
