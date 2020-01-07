@@ -5,7 +5,7 @@ description: "HTTP、HTTPS相关"
 tag: 安全 
 ---
 ### 幂等性
-- 指对于同一个接口的调用，一次或多次得到的结果是完全一样的。
+- 指对于同一个接口的调用，在不修改参数的前提下，一次或多次得到的结果是完全一样的。
 
 
 ### Request Method(常用)
@@ -16,7 +16,7 @@ tag: 安全
 | POST   | 增加或修改数据，有Body            | 无     |
 | PUT    | 修改数据 ，有Body                 | 有     |
 | DELETE | 删除数据，不发送Body              | 有     |
-| HEAD   | 获取数据，GET唯一的区别就是无Body | 有     |
+| HEAD   | 获取数据，与GET唯一的区别就是无Body | 有     |
 
 ###  Response Status Code
 - 1XXXX : 临时性消息
@@ -27,7 +27,7 @@ tag: 安全
   - 304 : 内容无改变，body返回为空，可以使用之前的缓存
 - 4XXXX : 客户端错误
   - 404(Page Not Found)
-  - https://struggledreamlin.github.iohttps://struggledreamlin.github.io
+  - https://struggledreamlin.github.io
 - 5XXXX : 服务器错误
 
 ### 请求报文
@@ -168,10 +168,12 @@ tag: 安全
     - 数据被截获，用户名和密码直接Base64解码就全泄漏了，当然如果是HTTPS，数据是不容易被截获的。
   -Bearer（持票人）：Authorization:Bearer <bearer token>
     - OAuth2流程：（如微信登录）
-![image.png](https://struggledreamlin.github.io/images/posts/oauth2.png)
+![image.png](https://struggledreamlin.github.io/images/posts/oauth2.jpg)
     - 自家登录使用bearer token
     登录后服务器直接返回access_token，再次请求直接添加即可。
-    - refresh token：refresh token 可以刷新access token，获取新的access token，并使旧的access token。假如当前使用的access_token失窃，可以使用refresh_token进行更换access_token；refresh_token
+    - refresh token：refresh token 可以刷新access token，获取新的access token，并使旧的access token失效。假如当前使用的access_token失窃，可以使用refresh_token进行更换access_token；
+    
+    
 
 ## [TCP/IP协议族](https://zh.wikipedia.org/wiki/TCP/IP%E5%8D%8F%E8%AE%AE%E6%97%8F)
 TCP、IP协议族是由一系列网络协议所组成的网络分层模型。
